@@ -7,7 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.UUID;
+
+import java.util.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -19,9 +20,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee create(Employee employee) {
-        LOG.debug("Creating employee [{}]", employee);
+        return create( employee,UUID.randomUUID().toString() );
+    }
 
-        employee.setEmployeeId(UUID.randomUUID().toString());
+    public Employee create(Employee employee , String id ){
+        LOG.debug("Creating employee [{}], id [{}]", employee, id);
+
+        employee.setEmployeeId(id);
         employeeRepository.insert(employee);
 
         return employee;
@@ -46,4 +51,5 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return employeeRepository.save(employee);
     }
+
 }
